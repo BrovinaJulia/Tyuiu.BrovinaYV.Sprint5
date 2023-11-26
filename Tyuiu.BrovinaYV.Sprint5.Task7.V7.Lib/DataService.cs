@@ -22,9 +22,16 @@ namespace Tyuiu.BrovinaYV.Sprint5.Task7.V7.Lib
             {
                 File.Delete(pathSaveFile);
             }
-            string text = File.ReadAllText(path, Encoding.UTF8);
-            string modifiedText = Regex.Replace(text, "[А-Я]", string.Empty, RegexOptions.IgnoreCase);
-            File.AppendAllText(pathSaveFile, modifiedText + Environment.NewLine, Encoding.UTF8);
+            
+            string outText = "";
+            string pattern = "[А-ЯЁ]";
+            using (StreamReader reader = new StreamReader(path))
+            {
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                    outText += Regex.Replace(line, pattern, "");
+            }
+            File.WriteAllText(pathSaveFile, outText);
             return pathSaveFile;
 
 
